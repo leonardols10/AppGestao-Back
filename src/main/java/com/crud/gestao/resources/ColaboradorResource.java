@@ -1,5 +1,8 @@
 package com.crud.gestao.resources;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,12 +22,19 @@ public class ColaboradorResource {
 	@Autowired
 	private ColaboradorService service;
 	
-	//mapea o colaborador pelo id
+	//busca o colaborador pelo id e retorna o obj do colaborador
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<ColaboradorDTO> findById(@PathVariable Integer id){
 		Colaborador obj = service.findById(id);
 		return ResponseEntity.ok().body(new ColaboradorDTO(obj));
 		
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<ColaboradorDTO>> findAll(){
+		List<Colaborador> list = service.findAll();
+		List<ColaboradorDTO> listDTO = list.stream().map(obj -> new ColaboradorDTO(obj)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 
 }

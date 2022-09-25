@@ -1,5 +1,6 @@
 package com.crud.gestao.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,10 @@ public class ColaboradorService {
 	public Colaborador findById(Integer id) {
 		Optional<Colaborador> obj  = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id:" +id));
+	}
+	public List<Colaborador> findAll() {
+		// TODO Auto-generated method stub
+		return repository.findAll();
 	}
 
 }
