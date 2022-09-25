@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.crud.gestao.domain.Colaborador;
+import com.crud.gestao.domain.dtos.ColaboradorDTO;
 import com.crud.gestao.repositories.ColaboradorRepository;
 import com.crud.gestao.services.exceptions.ObjectnotFoundException;
 
@@ -21,8 +22,12 @@ public class ColaboradorService {
 		return obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id:" +id));
 	}
 	public List<Colaborador> findAll() {
-		// TODO Auto-generated method stub
 		return repository.findAll();
+	}
+	public Colaborador create(ColaboradorDTO objDTO) {
+		objDTO.setId(null);
+		Colaborador newObj = new Colaborador(objDTO);
+		return repository.save(newObj);
 	}
 
 }
