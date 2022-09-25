@@ -7,16 +7,17 @@ import org.springframework.stereotype.Service;
 
 import com.crud.gestao.domain.Colaborador;
 import com.crud.gestao.repositories.ColaboradorRepository;
+import com.crud.gestao.services.exceptions.ObjectnotFoundException;
 
 @Service
 public class ColaboradorService {
 	
 	@Autowired
 	private ColaboradorRepository repository;
-	
+	 //procura o colaborador pelo id e da um response formatado caso não exista o id no banco
 	public Colaborador findById(Integer id) {
 		Optional<Colaborador> obj  = repository.findById(id);
-		return obj.orElse(null);
+		return obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id:" +id));
 	}
 
 }
