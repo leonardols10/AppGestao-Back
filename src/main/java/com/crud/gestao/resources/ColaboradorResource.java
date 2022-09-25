@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.crud.gestao.domain.Colaborador;
+import com.crud.gestao.domain.dtos.ColaboradorDTO;
 import com.crud.gestao.services.ColaboradorService;
 
 @RestController
@@ -20,9 +21,9 @@ public class ColaboradorResource {
 	
 	//mapea o colaborador pelo id
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Colaborador> findById(@PathVariable Integer id){
+	public ResponseEntity<ColaboradorDTO> findById(@PathVariable Integer id){
 		Colaborador obj = service.findById(id);
-		return ResponseEntity.ok().body(obj);
+		return ResponseEntity.ok().body(new ColaboradorDTO(obj));
 		
 	}
 
