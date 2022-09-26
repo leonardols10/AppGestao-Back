@@ -3,6 +3,8 @@ package com.crud.gestao.services;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,15 +30,31 @@ public class ColaboradorService {
 		Optional<Colaborador> obj  = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id:" +id));
 	}
+	
+	//Lista todos os colaboradores quando for sem o id 
 	public List<Colaborador> findAll() {
 		return repository.findAll();
 	}
+	//cria um colaborador
 	public Colaborador create(ColaboradorDTO objDTO) {
 		objDTO.setId(null);
 		validaPorCpfeEmail(objDTO);
 		Colaborador newObj = new Colaborador(objDTO);
 		return repository.save(newObj);
 	}
+	
+	
+	//Atualiza um colaborador
+	public Colaborador update(Integer id, @Valid ColaboradorDTO objDTO) {
+		objDTO.setId(id);
+		Colaborador oldObj = findById(id);
+		validaPorCpfeEmail(objDTO);																																																												
+		oldObj = new Colaborador(objDTO);
+		return repository.save(oldObj);
+	}
+
+	
+	//Valida se os dados já estão cadastrados no sistema
 	private void validaPorCpfeEmail(ColaboradorDTO objDTO) {
 		Optional<Pessoa> obj = pessoarepository.findByCpf(objDTO.getCpf());
 		if(obj.isPresent() && obj.get().getId() != objDTO.getId()) {
@@ -49,5 +67,5 @@ public class ColaboradorService {
 		}
 
 	}
-
+	
 }
