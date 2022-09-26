@@ -44,7 +44,7 @@ public class ColaboradorService {
 	}
 	
 	
-	//Atualiza um colaborador
+	//Atualiza um colaborador e verifica o cpf e email se são campos validos 
 	public Colaborador update(Integer id, @Valid ColaboradorDTO objDTO) {
 		objDTO.setId(id);
 		Colaborador oldObj = findById(id);
@@ -52,7 +52,17 @@ public class ColaboradorService {
 		oldObj = new Colaborador(objDTO);
 		return repository.save(oldObj);
 	}
-
+   
+	
+	//Deleta um colaborador, mas antes verifica se ele não possui uma ordem de serviço em aberto 
+    public void delete(Integer id) {
+    	Colaborador obj = findById(id);
+    	if(obj.getChamados().size() > 0 ) {
+    		throw new DataIntegrityViolationException("O Colaborador possui uma order de serviço e não pode ser deletado");
+    	}
+    		repository.deleteById(id);
+    	
+	}
 	
 	//Valida se os dados já estão cadastrados no sistema
 	private void validaPorCpfeEmail(ColaboradorDTO objDTO) {
@@ -67,5 +77,7 @@ public class ColaboradorService {
 		}
 
 	}
+
+	
 	
 }
