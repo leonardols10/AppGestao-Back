@@ -6,6 +6,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import javax.validation.constraints.NotNull;
+
 import com.crud.gestao.domain.Colaborador;
 import com.crud.gestao.domain.enums.perfil;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -16,11 +18,14 @@ public class ColaboradorDTO implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	protected Integer id;
-	protected String nome;
 	
+	@NotNull(message = "O campo nome é obrigátorio")
+	protected String nome;
+	@NotNull(message = "O campo cpf é obrigátorio")
 	protected String cpf;
-
+	@NotNull(message = "O campo email é obrigátorio")
 	protected String email;
+	@NotNull(message = "O campo senha é obrigátorio")
 	protected String senha;
 	
 	protected Set<Integer> perfis = new HashSet<>();
