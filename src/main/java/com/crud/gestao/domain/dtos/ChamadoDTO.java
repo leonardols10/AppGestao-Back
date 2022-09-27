@@ -3,6 +3,8 @@ package com.crud.gestao.domain.dtos;
 import java.io.Serializable;
 import java.time.LocalDate;
 
+import javax.validation.constraints.NotNull;
+
 import com.crud.gestao.domain.Chamado;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -15,11 +17,17 @@ public class ChamadoDTO implements Serializable {
 	private LocalDate dataAbertura = LocalDate.now();
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate dataFechamento;
+	@NotNull(message = "O campo prioridade é obrigatorio")
 	private  Integer prioridade;
+	@NotNull(message = "O campo status é obrigatorio")
 	private  Integer status;
+	@NotNull(message = "O campo titulo é obrigatorio")
 	private  String titulo;
+	@NotNull(message = "O campo observacoes é obrigatorio")
 	private  String observacoes;
+	@NotNull(message = "O campo colaborador é obrigatorio")
 	private  Integer colaborador;
+	@NotNull(message = "O campo cliente é obrigatorio")
 	private  Integer cliente;
 	private  String nomeColaborador;
 	private  String nomeCliente;

@@ -19,7 +19,8 @@ public class DevConfig {
 	@Value("${spring.jpa.hibernate.ddl-auto}")
 	private String value;
 	
-	
+	//caso a configuração seja create ele cria as tabelas (cuidado, só precisar deixar como create a primeira vez que inicia o projeto,
+	//depois tem que mudar para none 
 	@Bean
 	public boolean  instanciaDB() {
 		if(value.equals("create")) {
