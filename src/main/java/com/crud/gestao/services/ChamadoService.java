@@ -1,5 +1,6 @@
 package com.crud.gestao.services;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,16 @@ public class ChamadoService {
 		return repository.save(newChamado(objDTO));
 	}
 	
+	public Chamado update(Integer id, @Valid ChamadoDTO objDTO) {
+		objDTO.setId(id);
+		Chamado oldObj = findById(id);
+		oldObj = newChamado(objDTO);
+		return repository.save(oldObj);
+	}
+	
+	
+	//faz a verificação se o id do chamado já existe, caso exista ele atualiza o chamado
+	//caso não exista ele cria um chamado
 	private Chamado newChamado(ChamadoDTO obj) {
 		Colaborador colaborador = colaboradorService.findById(obj.getColaborador());
 		Cliente cliente = clienteService.findById(obj.getCliente());
@@ -52,6 +63,10 @@ public class ChamadoService {
 		Chamado chamado = new Chamado();
 		if(obj.getId() != null) {
 			chamado.setId(obj.getId());
+		}
+		
+		if(obj.getStatus().equals(2)) {
+			chamado.setDataFechamento(LocalDate.now());
 		}
 		chamado.setColaborador(colaborador);
 		chamado.setCliente(cliente);
@@ -61,4 +76,7 @@ public class ChamadoService {
 		chamado.setObservacoes(obj.getObservacoes());
 		return chamado;
 	}
+
+
+	
 }
