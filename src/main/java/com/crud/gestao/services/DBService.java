@@ -3,6 +3,7 @@ package com.crud.gestao.services;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.crud.gestao.domain.Chamado;
@@ -24,13 +25,15 @@ public class DBService {
 	private ClienteRepository clienterepository;
 	@Autowired
 	private ChamadoRepository chamadorepository;
+	@Autowired
+	private BCryptPasswordEncoder encorder;
 
 	
 	public void instanciaDB() {
-		Colaborador col1 = new Colaborador(null, "rafa", "98824640095", "rafa@teste.com.br", "123");
+		Colaborador col1 = new Colaborador(null, "rafa", "98824640095", "rafa@teste.com.br", encorder.encode("123"));
 		col1.addPerfil(perfil.ADMIN);
 		
-		Cliente cli1 = new Cliente(null, "linus", "69360557021", "rafatestecliente@teste.com.br", "123");
+		Cliente cli1 = new Cliente(null, "linus", "69360557021", "rafatestecliente@teste.com.br", encorder.encode("123"));
 		
 		Chamado c1 = new Chamado(null, Prioridade.MEDIA, Status.ANDAMENTO, "Chamado 01", "Primeiro chamado", col1, cli1);
 		

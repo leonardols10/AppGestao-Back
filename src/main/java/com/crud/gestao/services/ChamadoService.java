@@ -61,10 +61,12 @@ public class ChamadoService {
 		Cliente cliente = clienteService.findById(obj.getCliente());
 		
 		Chamado chamado = new Chamado();
+		
 		if(obj.getId() != null) {
 			chamado.setId(obj.getId());
 		}
 		
+		//se o status do chamado for igual a 2 ele fecha o chamado com a data de agora
 		if(obj.getStatus().equals(2)) {
 			chamado.setDataFechamento(LocalDate.now());
 		}

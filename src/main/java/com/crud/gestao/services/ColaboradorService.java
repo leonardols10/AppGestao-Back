@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.crud.gestao.domain.Colaborador;
@@ -26,6 +27,9 @@ public class ColaboradorService {
 	//procura o colaborador pelo id e da um response formatado caso não exista o id no banco
 	@Autowired
 	private PessoaRepository pessoarepository;
+	@Autowired
+	private BCryptPasswordEncoder encorder;
+	
 	public Colaborador findById(Integer id) {
 		Optional<Colaborador> obj  = repository.findById(id);
 		return obj.orElseThrow(() -> new ObjectnotFoundException("Objeto não encontrado! Id:" +id));
@@ -38,6 +42,7 @@ public class ColaboradorService {
 	//cria um colaborador
 	public Colaborador create(ColaboradorDTO objDTO) {
 		objDTO.setId(null);
+		objDTO.setSenha(encorder.encode(objDTO.getSenha()));
 		validaPorCpfeEmail(objDTO);
 		Colaborador newObj = new Colaborador(objDTO);
 		return repository.save(newObj);
