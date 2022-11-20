@@ -53,6 +53,13 @@ public class ColaboradorService {
 	public Colaborador update(Integer id, @Valid ColaboradorDTO objDTO) {
 		objDTO.setId(id);
 		Colaborador oldObj = findById(id);
+
+		
+		if(!objDTO.getSenha().equals(oldObj.getSenha())) 
+			objDTO.setSenha(encorder.encode(objDTO.getSenha()));
+
+		
+		
 		validaPorCpfeEmail(objDTO);																																																												
 		oldObj = new Colaborador(objDTO);
 		return repository.save(oldObj);
